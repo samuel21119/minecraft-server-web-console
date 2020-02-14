@@ -8,8 +8,10 @@ const bodyParser = require('body-parser');
 const { spawn } = require("child_process");
 const cookieParser = require('cookie-parser');
 const fileManager = require('express-file-manager');
+
+var pass;
 try {
-    const pass = require(path.join(__dirname, "password", "pass.json"));
+    pass = require(path.join(__dirname, "password", "pass.json"));
 }catch(e) {
     console.log("Missing pass.json file, please run \'node gen_pass.js\' first");
     process.exit(1);
@@ -192,4 +194,4 @@ app.get(/.*/, (req, res) => {
 });
 
 
-app.listen(80, () => console.log("Application listening on port 80!"));
+app.listen(4000, () => console.log("Application listening on port 4000!"));
