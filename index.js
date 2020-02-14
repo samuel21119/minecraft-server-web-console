@@ -59,11 +59,23 @@ app.get("/msg", (req, res) => {
 
     // If process not started: open new process.
     if (typeof(MinecraftServer) === "undefined") {
-        MinecraftServer = spawn("java", [`-Xmx${config["RAM"]}`, `-Xms${config["RAM"]}`, '-jar', "server.jar"], {
+        MinecraftServer = spawn("java", [`-Xmx${config["RAM"]}`, `-Xms${config["RAM"]}`, '-jar', config["Start-file"], "nogui"], {
             cwd: path.join(__dirname, config["Server-location"])
         });
         status = true;
         console.log("CREATED");
+    }else {
+        // Send previous logs
+        fs.readFile(path.join(__dirname, config["Server-location"], "logs", "latest.log"), (err, data) => {
+            if (err) {
+
+            }else {
+                var arr = data.toString().split("\n");
+                for (var i = (100 > arr.length ? 0 : arr.length - 100); i < arr.length; i++) {
+                    res.write("data: " + arr[i] + "\n\n");
+                }
+            }
+        });
     }
     // Add event listener to client
     var listener1, listener2, listener3;
@@ -107,18 +119,6 @@ app.get("/msg", (req, res) => {
         }
         end = true;
         res.end();
-    });
-
-    // Send previous logs
-    fs.readFile(path.join(__dirname, config["Server-location"], "logs", "latest.log"), (err, data) => {
-        if (err) {
-
-        }else {
-            var arr = data.split("\n");
-            for (var i = (100 > arr.length ? 0 : arr.length - 100); i < arr.length; i++) {
-                res.write("data: " + arr[i] + "\n\n");
-            }
-        }
     });
 })
 app.get("/status", (req, res) => {

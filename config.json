@@ -1,4 +1,5 @@
 {
     "Server-location": "server",
+    "Start-file": "spigot.jar",
     "RAM": "1024M"
 }
