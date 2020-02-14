@@ -23,6 +23,7 @@ var prompt_attributes = [
 
 fs.readFile(pass_dir, (err, data) => {
     if (err) {
+        fs.mkdir(path.join(__dirname, "password"), undefined, (err) => {});
         pass = {};
     }else {
         pass = JSON.parse(data);

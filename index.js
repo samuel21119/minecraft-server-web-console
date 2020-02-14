@@ -8,7 +8,12 @@ const bodyParser = require('body-parser');
 const { spawn } = require("child_process");
 const cookieParser = require('cookie-parser');
 const fileManager = require('express-file-manager');
-const pass = require(path.join(__dirname, "password", "pass.json"));
+try {
+    const pass = require(path.join(__dirname, "password", "pass.json"));
+}catch(e) {
+    console.log("Missing pass.json file, please run \'node gen_pass.js\' first");
+    process.exit(1);
+}
 const config = require("./config.json")
 //Hash
 const saltRounds = 15;
