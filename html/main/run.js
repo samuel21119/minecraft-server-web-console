@@ -129,6 +129,21 @@ document.getElementById("command").addEventListener("keyup", (event) => {
       break;
   }
 });
+function list_plugins(name, plugin_list, to_copy) {
+  var clone = to_copy.cloneNode(true);
+  clone.style.display = "block";
+  clone.getElementsByClassName("plugin_name")[0].innerHTML = name;
+  clone.getElementsByTagName("button")[0].onclick = () => {
+    request("POST", "/delete", `file=${name}`, (http) => {
+      http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    }, (http) => {
+      if (http.readyState == 4 && http.status == 200) {
+        load_plugins();
+      }
+    })
+  };
+  plugin_list.appendChild(clone);
+}
 function load_plugins() {
   var plugins = document.getElementsByClassName("plugins");
   for (var i = plugins.length - 1; i > 0; i--)
@@ -139,20 +154,7 @@ function load_plugins() {
       const to_copy = plugin_list.getElementsByClassName("plugins")[0];
       var arr = JSON.parse(http.responseText);
       for (var i = 0; i < arr.length; i++) {
-        var clone = to_copy.cloneNode(true);
-        var name = arr[i];
-        clone.style.display = "block";
-        clone.getElementsByClassName("plugin_name")[0].innerHTML = name;
-        clone.getElementsByTagName("button")[0].onclick = () => {
-          request("POST", "/delete", `file=${name}`, (http) => {
-            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-          }, (http) => {
-            if (http.readyState == 4 && http.status == 200) {
-              load_plugins();
-            }
-          })
-        };
-        plugin_list.appendChild(clone);
+        list_plugins(arr[i], plugin_list, to_copy);
       }
     }
   })
