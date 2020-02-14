@@ -34,11 +34,11 @@ function add_output(out) {
   var t = "", i = 0;
   for (i = 0; i < out.length && out[i - 1] != "]"; i++)
     t += out[i];
-  copy.getElementsByClassName("time")[0].innerHTML = t;
+  copy.getElementsByClassName("time")[0].innerText = t;
   t = "";
   for (; i < out.length; i++)
     t += out[i];
-  copy.getElementsByClassName("text")[0].innerHTML = " " + t + "<br>";
+  copy.getElementsByClassName("text")[0].innerText = " " + t + "\n";
   copy.style.display = "block";
   cons.appendChild(copy);
   cons.scrollTop = cons.scrollHeight;
@@ -56,6 +56,7 @@ function on() {
   onEvent = new EventSource("/msg");
   onEvent.onmessage = function(e) {
       const con = document.getElementById("console");
+      console.log(e.data);
       add_output(e.data);
       if (e.data === "CLOSED") {
         onEvent.close();
