@@ -2,8 +2,8 @@
 Run and control your minecraft server in this web.  
 
 ## Features
-1. Start/Stop minecraft server.  
-2. Send command to minecraft server console.  
+1. Start/Stop minecraft server  
+2. Send command to minecraft server console  
 3. Upload/Delete Bukkit plugins
 4. Change server.properties
 5. Server file manager
@@ -25,7 +25,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Generate user account
 
 To prevent your server getting modified by other users, you need to create an account:  
-  `$ node gen_pass.js"  
+  `$ node gen_pass.js`  
 
 You can run excute this command serveral times to create multiple accounts.  
 
@@ -43,9 +43,9 @@ After creating accounts, you can host this website:
 ## Config
 
  - Server-port: port for web hosting  
- - Server-location: place for minecraft server launcher
- - Start-file: Minecraft server launcher file name
- - RAM: RAM for minecraft server
+ - Server-location: place for minecraft server launcher  
+ - Start-file: Minecraft server launcher file name  
+ - RAM: RAM for minecraft server  
 
 ## Webpage
 
