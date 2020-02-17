@@ -1,5 +1,7 @@
 {
+    "Web-port": "4000",
     "Server-location": "server",
     "Start-file": "spigot.jar",
-    "RAM": "1024M"
+    "RAM": "10G",
+    "Previous-logs": "100"
 }
