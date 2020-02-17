@@ -1,5 +1,5 @@
 # Minecraft server web console
-Run ans control your minecraft server in this web.  
+Run and control your minecraft server in this web.  
 
 ## Features
 1. Start/Stop minecraft server.  
