@@ -12,8 +12,8 @@ const pass_dir = path.join(__dirname, "password", "pass.json");
 var prompt_attributes = [
     {
         name: 'username',
-        validator: /^[a-zA-Z\s\-]+$/,
-        warning: 'Username is not valid, it can only contains letters, spaces, or dashes'
+        validator: /^[0-9a-zA-Z\s\-]+$/,
+        warning: 'Username is not valid, it can only contains letters, numbers, spaces, or dashes'
     },
     {
         name: 'password',
