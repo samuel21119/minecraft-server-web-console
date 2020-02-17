@@ -34,16 +34,20 @@ app.use((req, res, next) =>{ // Check if login
         next();
         return;
     }
-    var token = req.cookies.token;
-    if (typeof(token) !== "undefined") {
-        token = token.split("//////");
-        var hash = token[0];
-        var username = token[1];
-        if (hash === pass[username]) {
-            next();
-            return;
+    try {
+        var token = req.cookies.token;
+        if (typeof(token) !== "undefined") {
+            token = token.split("//////");
+            if (token.length === 2) {
+                var hash = token[0];
+                var username = token[1];
+                if (hash === pass[username]) {
+                    next();
+                    return;
+                }
+            }
         }
-    }
+    }catch(e) {}
     res.redirect("/login");
 });
 app.use('/filemanager', fileManager(path.join(__dirname, config["Server-location"])));
@@ -71,7 +75,8 @@ app.get("/msg", (req, res) => {
 
             }else {
                 var arr = data.toString().split("\n");
-                for (var i = (100 > arr.length ? 0 : arr.length - 100); i < arr.length; i++) {
+                var previous_logs = parseInt(config["Previous-logs"]);
+                for (var i = (previous_logs > arr.length ? 0 : arr.length - previous_logs); i < arr.length; i++) {
                     res.write("data: " + arr[i] + "\n\n");
                 }
             }
@@ -83,7 +88,6 @@ app.get("/msg", (req, res) => {
         if (end) return;
         data = data.toString();
         data = data.split(/\r?\n/);
-        console.log(`data: ${data}`);
         try {
             for (var i = 0; i < data.length; i++)
                 res.write("data: " + data[i] + "\n\n");
@@ -95,7 +99,6 @@ app.get("/msg", (req, res) => {
         if (end) return;
         data = data.toString();
         data = data.split(/\r?\n/);
-        console.log(`error: ${data}`);
         try {
             for (var i = 0; i < data.length; i++)
                 res.write("data: " + data[i] + "\n\n");
@@ -112,7 +115,7 @@ app.get("/msg", (req, res) => {
         res.end();
     });
     req.on("close", () => {
-        if (typeof(aniGamerPlus) !== "undefined") {
+        if (typeof(aniGamerPlus) !== "undefined") { // Remove listener when client closed
             MinecraftServer.stdout.removeListener("data", listener1);
             MinecraftServer.stderr.removeListener("data", listener2);
             MinecraftServer.removeListener("close", listener3);
@@ -186,7 +189,7 @@ var storage = multer.diskStorage({
 var upload = multer({
     storage: storage
 });
-app.post('/upload_plugin',upload.single("plugin"), (req, res) => {
+app.post('/upload_plugin', upload.single("plugin"), (req, res) => {
     res.redirect("/#setting");
 })
 app.get(/.*/, (req, res) => {
@@ -194,4 +197,4 @@ app.get(/.*/, (req, res) => {
 });
 
 
-app.listen(4000, () => console.log("Application listening on port 4000!"));
+app.listen(config["Web-port"], () => console.log(`Application listening on port ${config["Web-port"]}!`));
