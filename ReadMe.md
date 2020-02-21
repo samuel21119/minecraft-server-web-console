@@ -46,6 +46,7 @@ After creating accounts, you can host this website:
  - Server-location: place for minecraft server launcher  
  - Start-file: Minecraft server launcher file name  
  - RAM: RAM for minecraft server  
+ - Launch-parameters: Additions parameters for optimzing java runtime. 
 
 ## Webpage
 

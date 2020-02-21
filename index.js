@@ -63,7 +63,9 @@ app.get("/msg", (req, res) => {
 
     // If process not started: open new process.
     if (typeof(MinecraftServer) === "undefined") {
-        MinecraftServer = spawn("java", [`-Xmx${config["RAM"]}`, `-Xms${config["RAM"]}`, '-jar', config["Start-file"], "nogui"], {
+        var exec = [`-Xmx${config["RAM"]}`, `-Xms${config["RAM"]}`];
+        exec = exec.concat(config["Launch-parameters"]).concat(["-jar", config["Start-file"], "nogui"]);
+        MinecraftServer = spawn("java", exec, {
             cwd: path.join(__dirname, config["Server-location"])
         });
         status = true;
